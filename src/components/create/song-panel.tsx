@@ -5,29 +5,50 @@ import { Tabs, TabsList, TabsTrigger } from "../ui/tabs"
 import { TabsContent } from "@radix-ui/react-tabs";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { Plus, Tag } from "lucide-react";
+import { Loader2, Music, Plus, Tag } from "lucide-react";
 import { Switch } from "../ui/switch";
 import { Checkbox } from "../ui/checkbox";
+import type { set } from "better-auth";
 
 const inspirationTags = [
     "Chill pop vibes",
     "Smooth jazz",
     "Indie electronic beats",
-    "Lo-fi hip hop",
+    "Lofi hip hop",
     "Acoustic guitar",
     "Summer beach vibe",
   ];
-  
 
+  const styleTags = [
+    "Industrial rave",
+    "Heavy bass",
+    "Orchestral",
+    "Electronic beats",
+    "Funky guitar",
+    "Soulful vocals",
+    "Ambient pads",
+  ];
+  
   export function SongPanel() {
     const [mode, setMode] = useState<"simple" | "custom">("simple");
     const [description, setDescription] = useState("");
     const [instrumental, setInstrumental] = useState(false);
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
+    const [selectedStyleTags, setSelectedStyleTags] = useState<string[]>([]);
+    const [lyricsMode, setLyricsMode] = useState<"write" | "auto">("write");
+    const [lyrics, setLyrics] = useState("");
+    const [styleInput, setStyleInput] = useState("");
+    const [loading, setLoading] = useState(false);
   
     useEffect(() => {
       setDescription(selectedTags.join(", "));
-    }, [selectedTags]);
+    }, [selectedTags])
+
+    useEffect(() => {
+        setStyleInput(selectedStyleTags.join(", "));
+      }, [selectedStyleTags]);
+
+    
   
     return (
       <div className="bg-muted/30 flex w-full flex-col border-r lg:w-80">
@@ -37,7 +58,7 @@ const inspirationTags = [
             onValueChange={(value) => setMode(value as "simple" | "custom")}
           >
             <TabsList className="w-full">
-              <TabsTrigger value="simple">Simple</TabsTrigger>
+              <TabsTrigger value="simple">Basic</TabsTrigger>
               <TabsTrigger value="custom">Custom</TabsTrigger>
             </TabsList>
   
@@ -100,9 +121,99 @@ const inspirationTags = [
                 </div>
               </div>
             </TabsContent>
+
+            <TabsContent value="custom" className="mt-6 space-y-6">
+              <div className="flex flex-col gap-3">
+               <div className="flex items-center justify-between"> 
+                <label className="text-sm font-medium">Lyrics</label>
+                <div className="flex items-center gap-1">
+                    <Button 
+                    variant={lyricsMode === "auto" ? "secondary" : "ghost"}
+                    onClick={() => {
+                        setLyricsMode("auto");
+                        setLyrics("");
+                    }}
+                    size= "sm" 
+                    className="h-7 text-xs"
+                    >Describe
+                    </Button>
+
+                    <Button 
+                    variant={lyricsMode === "write" ? "secondary" : "ghost"}
+                    onClick={() => {
+                        setLyricsMode("write");
+                        setLyrics("");
+                    }}
+                    size= "sm" 
+                    className="h-7 text-xs"
+                    >Write Lyrics
+                    </Button>
+                </div> 
+               </div>
+
+               <Textarea 
+                placeholder={
+                lyricsMode === "auto"
+                ? "Describe the theme or story of your lyrics (e.g., a song about first love)"
+                : "Type your lyrics here..."}
+                value={lyrics} 
+                onChange={(e) => setLyrics(e.target.value)}
+                className="min-h-[100px]"/>
+                </div>
+
+                <div className="flex flex-col gap-3">
+                    <label className="text-sm font-medium">Styles</label>
+                    <Textarea
+                      placeholder="e.g., pop, rock, hip-hop"
+                      value={styleInput}
+                      onChange={(e) => setStyleInput(e.target.value)}
+                      className="min-h-[60px] resize-none"
+                    />
+                </div>
+
+                <div className="flex flex-col gap-3">
+                <label className="text-sm font-medium">
+                  Styles for inspiration
+                </label>
+                <div className="grid grid-cols-1 gap-2">
+                  {styleTags.map((tag) => (
+                    <label
+                      key={tag}
+                      className="flex items-center gap-2 text-sm cursor-pointer"
+                    >
+                      <Checkbox
+                        checked={selectedStyleTags.includes(tag)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            setSelectedStyleTags((prev) => [...prev, tag]);
+                          } else {
+                            setSelectedStyleTags((prev) =>
+                              prev.filter((t) => t !== tag)
+                            );
+                          }
+                        }}
+                        className="border-gray-400 data-[state=checked]:bg-gray-800"
+                      />
+                      {tag}
+                    </label>
+                  ))}
+                </div>
+              </div>
+                </TabsContent>
           </Tabs>
+
+        </div>
+        <div className="my-3 border-t p-4">
+          <Button 
+            disabled={loading} 
+            className="w-full cursor-pointer font-medium"
+            >
+            {loading ? <Loader2 className=" h-4 w-4 animate-spin" /> : <Music />}
+            {loading ? "Generating..." : "Generate Song"}
+          </Button>
         </div>
       </div>
+      
     );
   }
   
