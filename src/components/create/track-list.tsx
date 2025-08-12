@@ -12,6 +12,7 @@ import { CheckCircle2, Share2 } from "lucide-react";
 import { DropdownMenu } from "../ui/dropdown-menu";
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { RenameDialog } from "./rename-dialog";
+import { useRouter } from "next/navigation";
 
 
 export interface Track {
@@ -35,6 +36,7 @@ export function TrackList({tracks} : {tracks: Track[]}) {
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [loadingTrackId, setLoadingTrackId] = useState<string | null>(null);
     const [trackToRename, setTrackToRename] = useState<Track | null>(null);
+    const router = useRouter();
 
     const handleTrackSelect = async (track: Track) => {
         if (loadingTrackId) return; // Prevent multiple selections while loading
@@ -47,6 +49,14 @@ export function TrackList({tracks} : {tracks: Track[]}) {
 
         //Play the track in the player
     }  
+
+    const handleRefresh = async () => {
+        setIsRefreshing(true);
+        router.refresh();
+        setTimeout(() => {
+            setIsRefreshing(false);
+        }, 1000);
+    }
 
     const filteredTracks = tracks.filter(
         (track) =>
@@ -71,16 +81,7 @@ export function TrackList({tracks} : {tracks: Track[]}) {
                         variant="outline"
                         disabled={isRefreshing}
                         size="sm"
-                        onClick={async () => {
-                            setIsRefreshing(true);
-                            try {
-                                await new Promise(resolve => setTimeout(resolve, 1000));
-                            } catch (error) {
-                                console.error("Failed to refresh tracks", error);
-                            } finally {
-                                setIsRefreshing(false);
-                            }
-                        }}
+                        onClick={handleRefresh}
                     >
                         {isRefreshing ? (<Loader2 className="mr-2 animate-spin"/>) 
                         : (<RefreshCcw className="mr-2"/>
@@ -148,7 +149,7 @@ export function TrackList({tracks} : {tracks: Track[]}) {
                           Processing song...
                         </h3>
                         <p className="text-muted-foreground truncate text-xs">
-                          Refresh to check the status.
+                        This may take a couple of minutes. Please wait, and refresh the page to check the status.
                         </p>
                       </div>
                     </div>
@@ -251,7 +252,15 @@ export function TrackList({tracks} : {tracks: Track[]}) {
                     </div>
                   )
                     }
-                    })) : <></>}
+                    })) : 
+                    <div className="flex flex-col items-center justify-center pt-20 text-center">
+                        <Music className="text-muted-forefround h-10 w-10" />
+                        <h2 className="mt-4 text-lg font-semibold">No Music Yet</h2>
+                        <p className="text-muted-foreground mt-1 text-sm">
+                            {searchQuery 
+                        ? "No tracks match your search"
+                        : "Create your first song to get started" } </p>
+                        </div>}
                 </div>
             </div>
 
