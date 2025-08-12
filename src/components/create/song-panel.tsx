@@ -5,10 +5,11 @@ import { Tabs, TabsList, TabsTrigger } from "../ui/tabs"
 import { TabsContent } from "@radix-ui/react-tabs";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { Loader2, Music, Plus, Tag } from "lucide-react";
+import { Loader2, Music, Plus} from "lucide-react";
 import { Switch } from "../ui/switch";
 import { Checkbox } from "../ui/checkbox";
-import type { set } from "better-auth";
+import { toast } from "sonner";
+import { generateSong, type GenerateRequest } from "~/actions/generation";
 
 const inspirationTags = [
     "Chill pop vibes",
@@ -48,7 +49,58 @@ const inspirationTags = [
         setStyleInput(selectedStyleTags.join(", "));
       }, [selectedStyleTags]);
 
-    
+    const handleCreate = async () => {
+        if (mode === "simple" && !description.trim()) {
+            toast.error("Please provide a description for your song.")
+            return;
+        }
+        if (mode === "custom" && !lyrics.trim()) {
+            toast.error("Please provide lyrics or a description for your song.")
+            return;
+        }
+        if (mode === "custom" && !styleInput.trim()) {
+            toast.error("Please provide styles for your song.")
+            return;
+        }
+
+        // Generate the song
+        let requestBody : GenerateRequest;
+
+    if (mode === "simple") {
+        requestBody = {
+        fullDescribedSong: description,
+        instrumental,
+        }
+    } else {
+        const prompt = styleInput;
+        if (lyricsMode === "write") {
+            requestBody ={
+                prompt,
+                lyrics,
+                instrumental,
+            }
+        } else {
+            requestBody ={
+                prompt,
+                describedLyrics: lyrics,
+                instrumental,
+            };
+        }
+    }
+
+    try {
+        setLoading(true);
+        await generateSong(requestBody);
+        setDescription("");
+        setLyrics("");
+        setStyleInput("");
+      } catch (error) {
+        toast.error("Failed to generate song");
+      } finally {
+        setLoading(false);
+      }
+    };
+  
   
     return (
       <div className="bg-muted/30 flex w-full flex-col border-r lg:w-80">
@@ -205,6 +257,7 @@ const inspirationTags = [
         </div>
         <div className="my-3 border-t p-4">
           <Button 
+            onClick={handleCreate}
             disabled={loading} 
             className="w-full cursor-pointer font-medium"
             >
@@ -216,4 +269,3 @@ const inspirationTags = [
       
     );
   }
-  
