@@ -1,13 +1,18 @@
 "use client"
 
-import { Loader2, Music, RefreshCcw, Search, XCircle } from "lucide-react";
+import { Download, Loader2, MoreHorizontal, Music, Pencil, RefreshCcw, Search, XCircle } from "lucide-react";
 import { Input } from "../ui/input";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { getPlayUrl } from "~/actions/generation";
-import { set } from "better-auth";
 import { Play } from "lucide-react";
 import { Badge } from "../ui/badge";
+import { renameSong, setPublishedStatus } from "~/actions/song";
+import { CheckCircle2, Share2 } from "lucide-react";
+import { DropdownMenu } from "../ui/dropdown-menu";
+import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { RenameDialog } from "./rename-dialog";
+
 
 export interface Track {
     id: string;
@@ -29,6 +34,7 @@ export function TrackList({tracks} : {tracks: Track[]}) {
     const [searchQuery, setSearchQuery] = useState("");
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [loadingTrackId, setLoadingTrackId] = useState<string | null>(null);
+    const [trackToRename, setTrackToRename] = useState<Track | null>(null);
 
     const handleTrackSelect = async (track: Track) => {
         if (loadingTrackId) return; // Prevent multiple selections while loading
@@ -188,12 +194,59 @@ export function TrackList({tracks} : {tracks: Track[]}) {
                         </div>
 
                         <div className="flex items-center gap-2">
-                            <Button
+                        <Button
+                            onClick={async (e) => {
+                            e.stopPropagation();
+                            await setPublishedStatus(track.id, !track.published);
+                        }}
                             variant="outline"
                             size="sm"
-                            className={`cursor-pointer ${track.published ? "border-red-200" : ""}`}>
-                                {track.published ? "Unshare" : "Share"}
-                            </Button>
+                            className={`flex items-center gap-2 cursor-pointer transition-colors ${
+                            track.published
+                            ? "border-green-300 bg-green-50 text-green-700 hover:bg-green-100"
+                            : "border-gray-300 hover:bg-gray-50"
+                        }`}
+                        >
+                            {track.published ? (<> 
+                            <CheckCircle2 className="w-4 h-4" />
+                            Shared
+                            </>
+                        ) : (<> 
+                           <Share2 className="w-4 h-4" />
+                            Share
+                            </>
+                        )}
+                        </Button>
+
+                        <DropdownMenu>
+                            <DropdownMenuTrigger>
+                                <Button variant="ghost" size="icon" className="-ml-1">
+                                    <MoreHorizontal/>
+                                </Button>
+                            </DropdownMenuTrigger>
+
+                            <DropdownMenuContent align="end" className="w-32">
+                                <DropdownMenuItem 
+                                onClick={async (e) => {
+                                    e.stopPropagation();
+                                    const playUrl = await getPlayUrl(track.id);
+                                    window.open(playUrl, "_blank");
+                                }}
+                            >
+                                    <Download className="mr-2" /> Download
+                                </DropdownMenuItem>
+
+                                <DropdownMenuItem 
+                                onClick={async (e) => {
+                                    e.stopPropagation();
+                                    setTrackToRename(track);
+                                }}
+                            >
+                                    <Pencil className="mr-2" /> Rename
+                                </DropdownMenuItem>
+
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                         </div>
                     </div>
                   )
@@ -201,6 +254,14 @@ export function TrackList({tracks} : {tracks: Track[]}) {
                     })) : <></>}
                 </div>
             </div>
+
+            {trackToRename && (
+                <RenameDialog 
+                track={trackToRename} 
+                onClose={() => setTrackToRename(null)}
+                onRename={(trackId, newTitle) => renameSong(trackId, newTitle)}
+                />
+            )}
         </div>
     )
 }
