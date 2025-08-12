@@ -2,6 +2,9 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { auth } from "~/lib/auth";
 import { SongPanel } from "~/components/create/song-panel";
+import { Suspense } from "react";
+import TrackListFetcher from "~/components/create/track-list-fetcher";
+import { Loader2 } from "lucide-react";
 
 export default async function HomePage() {
   const session = await auth.api.getSession({
@@ -15,6 +18,13 @@ export default async function HomePage() {
   return (
     <div className="flex h-full flex-col lg:flex-row">
       <SongPanel />
+      <Suspense fallback={
+        <div className="flex h-full w-full items-center justify-center">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+      }>
+        <TrackListFetcher/>
+      </Suspense>
     </div>
   );
 }
