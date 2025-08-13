@@ -39,6 +39,7 @@ export function TrackList({tracks} : {tracks: Track[]}) {
     const [trackToRename, setTrackToRename] = useState<Track | null>(null);
     const router = useRouter();
     const setTrack = usePlayerStore((state) => state.setTrack);
+    
 
     const handleTrackSelect = async (track: Track) => {
         if (loadingTrackId) return; // Prevent multiple selections while loading
