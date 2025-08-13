@@ -228,7 +228,7 @@ export function TrackList({tracks} : {tracks: Track[]}) {
                         </Button>
 
                         <DropdownMenu>
-                            <DropdownMenuTrigger>
+                            <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" size="icon" className="-ml-1">
                                     <MoreHorizontal/>
                                 </Button>
