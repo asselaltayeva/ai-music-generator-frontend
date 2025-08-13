@@ -9,6 +9,7 @@ import { AppSidebar } from "~/components/sidebar/app-sidebar";
 import { Separator } from "~/components/ui/separator";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
 import BreadcrumbPageClient from "~/components/sidebar/breadcrumb-page-client";
+import SoundBar from "~/components/sound-bar";
 
 export const metadata: Metadata = {
   title: "Music Generator",
@@ -48,6 +49,7 @@ export default function RootLayout({
                 </div>
               </header>
           <main className="overflow-y-auto flex-1">{children}</main>
+          <SoundBar />
           </SidebarInset>
           </SidebarProvider>
           <Toaster />

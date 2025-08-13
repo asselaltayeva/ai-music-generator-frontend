@@ -13,6 +13,7 @@ import { DropdownMenu } from "../ui/dropdown-menu";
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { RenameDialog } from "./rename-dialog";
 import { useRouter } from "next/navigation";
+import { usePlayerStore } from "~/stores/use-player-store";
 
 
 export interface Track {
@@ -37,6 +38,7 @@ export function TrackList({tracks} : {tracks: Track[]}) {
     const [loadingTrackId, setLoadingTrackId] = useState<string | null>(null);
     const [trackToRename, setTrackToRename] = useState<Track | null>(null);
     const router = useRouter();
+    const setTrack = usePlayerStore((state) => state.setTrack);
 
     const handleTrackSelect = async (track: Track) => {
         if (loadingTrackId) return; // Prevent multiple selections while loading
@@ -45,9 +47,15 @@ export function TrackList({tracks} : {tracks: Track[]}) {
         const playUrl = await getPlayUrl(track.id);
         setLoadingTrackId(null);
 
-        console.log(playUrl);
-
         //Play the track in the player
+        setTrack({
+            id: track.id,
+            title: track.title,
+            url: playUrl,
+            artwork: track.thumbnailUrl,
+            prompt: track.prompt,
+            createdByUserName: track.createdByUserName,
+        });
     }  
 
     const handleRefresh = async () => {
