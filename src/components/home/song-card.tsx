@@ -87,7 +87,7 @@ export function SongCard({song}: { song: SongWithRelation }) {
                 <div className="mt-1 flex items-center justify-between text-xs text-gray-700 dark:text-gray-400">
                     <div className="flex items-center gap-1">
                         <Play className="h-4 w-4 text-gray-500" />
-                        <span>{song.listenCount.toLocaleString()} plays </span>
+                        <span>{song.listenCount.toLocaleString()} listens </span>
                     </div>
                     <button
                         onClick={handleLike}

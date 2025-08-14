@@ -12,8 +12,8 @@ import BreadcrumbPageClient from "~/components/sidebar/breadcrumb-page-client";
 import SoundBar from "~/components/sound-bar";
 
 export const metadata: Metadata = {
-  title: "Music Generator",
-  description: "Generator",
+  title: "Home Page",
+  description: "Music Generator",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
