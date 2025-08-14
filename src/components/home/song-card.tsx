@@ -4,6 +4,7 @@ import type { Category, Like, Song } from "@prisma/client"
 import { Heart, Loader2, Music, Play } from "lucide-react";
 import { useState } from "react";
 import { getPlayUrl } from "~/actions/generation";
+import { toggleLikeSong } from "~/actions/song";
 import { usePlayerStore } from "~/stores/use-player-store";
 
 type SongWithRelation = Song & {
@@ -35,6 +36,15 @@ export function SongCard({song}: { song: SongWithRelation }) {
     
         setIsLoading(false);
       };
+
+      const handleLike = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+
+        setIsLiked(!isLiked);
+        setLikesCount(isLiked ? likesCount - 1 : likesCount + 1);
+
+        await toggleLikeSong(song.id);
+      }
       
     return (
         <div>
@@ -74,13 +84,23 @@ export function SongCard({song}: { song: SongWithRelation }) {
                     </p>
                 </div>
 
-                <div className="mt-1 flex items-center justify-between text-xs text-gray-900">
-                    <span>{song.listenCount}</span>
-                    <button className="flex cursor-pointer items-center gap-1">
-                        <Heart className={`h-4 w-4 ${isLiked ? "fill-red-500" : ""}`}/>
-                        {likesCount} likes
+                <div className="mt-1 flex items-center justify-between text-xs text-gray-700 dark:text-gray-400">
+                    <div className="flex items-center gap-1">
+                        <Play className="h-4 w-4 text-gray-500" />
+                        <span>{song.listenCount.toLocaleString()} plays </span>
+                    </div>
+                    <button
+                        onClick={handleLike}
+                        className="flex items-center gap-1 text-gray-700 dark:text-gray-400"
+                    >
+                        <Heart
+                        className={`h-4 w-4 ${isLiked ? "fill-red-500 text-red-500" : "text-gray-500"}`}
+                        />
+                        <span>{likesCount.toLocaleString()} likes </span>
                     </button>
                 </div>
+
+
 
             </div>
         </div>
