@@ -14,12 +14,13 @@ export default function Upgrade() {
         ],
         });
     };
+    
     return (
     <Button 
       variant="outline"
       size="sm"
       className="ml-2 cursor-pointer" 
-      onAbort={upgrade}
+      onClick={upgrade}
       >Upgrade
     </Button>)
 }
