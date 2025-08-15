@@ -86,12 +86,12 @@ export default async function Page() {
 
 
   return (
-    <div className="p-4">
+    <div className="p-8">
       <h1 className="text-3xl font-bold tracking-tight ">Public Music</h1>
 
       {/* Trending Songs Section */}
       {trendingSongs.length > 0 && (
-        <div className="mt-6"> 
+        <div className="mt-4"> 
         <h2 className="text-xl font-semibold">Trending AI Songs</h2>
         <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {trendingSongs.map((song) => (
@@ -104,7 +104,7 @@ export default async function Page() {
 
       {/* Categorized Songs Section */}
       {Object.entries (categorizedSongs).slice(0, 5).map(([category, songs]) => (
-        <div key ={category} className="mt-6"> 
+        <div key ={category} className="mt-8"> 
         <h2 className="text-xl font-semibold">{category}</h2>
         <div className="mt-4 grid grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {songs.map((song) => (
