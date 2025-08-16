@@ -14,7 +14,7 @@ export default async function Page() {
   if (!session) {
     redirect("/auth/sign-in")
   }
-
+  
   const userId = session?.user.id;
 
   const songs = await db.song.findMany({  
@@ -83,8 +83,6 @@ export default async function Page() {
       </div>
     )
   }
-
-
   return (
     <div className="p-8">
       <h1 className="text-3xl font-bold tracking-tight ">Public Music</h1>
