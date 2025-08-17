@@ -8,25 +8,15 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 // UI components
-import { Button } from "~/components/ui/button";
 
 // Icons
-import { Bot, Scissors, Smartphone, MessageSquare, Music, Palette, FileText, Sparkles } from "lucide-react";
-import SpotlightCard from "~/components/ui/Components/SpotlightCard/SpotlightCard";
-import CurvedLoop from "~/components/ui/TextAnimations/CurvedLoop/CurvedLoop";
-import MagicBento from "~/components/ui/Components/MagicBento/MagicBento";
-import HeroAnimation from "~/components/ui/Components/HeroAnimation";
-import NavHeader from "~/components/ui/Components/NavHeader";
+import { FileText, Music, Palette, Sparkles } from "lucide-react";
 import LightRays from "~/components/ui/Backgrounds/LightRays/LightRays";
-import TextType from "~/components/ui/TextAnimations/TextType/TextType";
 import HorizontalFlagScroller from "~/components/ui/Components/InfiniteScroll/Flags";
-
-
-
-/**
- * @returns JSX.Element - The hero section component
- */
-
+import NavHeader from "~/components/ui/Components/NavHeader";
+import SpotlightCard from "~/components/ui/Components/SpotlightCard/SpotlightCard";
+import TextType from "~/components/ui/TextAnimations/TextType/TextType";
+// import HeroAnimation from "~/components/ui/Components/HeroAnimation";
 
 function LiquidGlassHero() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -82,14 +72,14 @@ function LiquidGlassHero() {
           <div className="h-[4.5rem] sm:h-[5.5rem] md:h-[6.5rem] flex items-center justify-center">
             <TextType
               text={[
-                "Make a smooth jazz track about happy cats",
-                "Make a chill lofi beat about success",
-                "Make a motivating song about happiness and joy",
+                "Make a smooth jazz track about cats",
+                "Make a chill lofi beat about the ocean",
+                "Make a motivating song about hard work",
                 "Make a funky pop tune inspired by summer vibes",
               ]}
               typingSpeed={85}
               pauseDuration={1000}
-              initialDelay={200}
+              initialDelay={800}
               showCursor={true}
               cursorCharacter="|"
             />
@@ -103,9 +93,7 @@ function LiquidGlassHero() {
           transition={{ duration: 1, delay: 0.4 }}
           className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-white/70 sm:text-xl"
         >
-          Choose your genre, mood, and style and let the AI make your unique song.
-          Feel free to experiment with different prompts, input your own lyrics,
-          and watch the magic happen!
+          Choose your favorite genre and style. Let AI generate lyrics or use your own words to turn it into a complete song in minutes
         </motion.p>
 
         {/* Call-to-Action Input */}
@@ -127,10 +115,10 @@ function LiquidGlassHero() {
           </Link>
         </motion.div>
 
-
-        <div className="mt-14">
+        <div className="mt-20 ">
           <HorizontalFlagScroller />
         </div>
+
       </div>
     </motion.div>
   );
@@ -177,24 +165,30 @@ function FloatingFeatureCards() {
           whileHover={{ y: -8, scale: 1.02 }}
           className="group"
         >
-          <SpotlightCard className="h-full border-white/10 bg-black/40 p-6 backdrop-blur-xl">
-            {/* Feature Icon with Gradient Background */}
-            <div
-              className={`h-12 w-12 rounded-xl bg-gradient-to-r ${feature.gradient} mb-4 flex items-center justify-center transition-transform duration-300 group-hover:scale-110`}
-            >
-              <feature.icon className="h-6 w-6 text-white" />
-            </div>
+         <SpotlightCard 
+         className="relative h-full overflow-hidden border border-white/10 rounded-xl 
+         bg-gradient-to-br from-[#1a1b1f]/80 via-[#111214]/70 to-[#1a1b1f]/80 backdrop-blur-xl p-6 before:absolute before:-top-1/2 before:-left-1/2 before:w-[200%] before:h-[200%] 
+         before:rotate-[25deg] before:bg-gradient-to-r before:from-transparent before:via-blue-400/10 before:to-transparent 
+         before:blur-3xl before:animate-ray">
 
-            {/* Feature Title */}
-            <h3 className="mb-3 text-xl font-semibold text-white">
-              {feature.title}
-            </h3>
+        {/* Feature Icon */}
+        <div
+          className={`h-12 w-12 rounded-xl bg-gradient-to-r ${feature.gradient} mb-4 
+          flex items-center justify-center transition-transform duration-300 group-hover:scale-110`}
+        >
+          <feature.icon className="h-6 w-6 text-white" />
+        </div>
 
-            {/* Feature Description */}
-            <p className="leading-relaxed text-white/70">
-              {feature.description}
-            </p>
-          </SpotlightCard>
+        {/* Title */}
+        <h3 className="mb-3 text-xl font-semibold text-white">
+          {feature.title}
+        </h3>
+
+        {/* Description */}
+        <p className="leading-relaxed text-white/70">
+          {feature.description}
+        </p>
+      </SpotlightCard>
         </motion.div>
       ))}
     </div>
@@ -215,6 +209,7 @@ export default function HomePage() {
         id="features"
         className="relative bg-gradient-to-b from-black to-gray-900 py-24"
       >
+      
         <div className="mx-auto max-w-7xl px-4">
           {/* Section Header */}
           <motion.div
@@ -225,10 +220,10 @@ export default function HomePage() {
             className="mb-20 text-center"
           >
             <h2 className="mb-6 text-4xl font-bold text-white md:text-5xl">
-              Powerful Features
+              Mindblowing Features
             </h2>
             <p className="mx-auto max-w-2xl text-xl text-white/70">
-              Everything you need to create professional music with AI.
+              Everything you need to create professional music for free
             </p>
           </motion.div>
 
@@ -236,6 +231,34 @@ export default function HomePage() {
           <FloatingFeatureCards />
         </div>
       </section>
+
+      <section
+        id="how-it-works"
+        className="relative bg-gradient-to-b from-gray-900 to-black py-20"
+      >
+        {/* Section Header */}
+        <div className="container mx-auto max-w-full">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          className="mb-16 text-center"
+        >
+          <h2 className="mb-6 text-4xl font-bold text-white md:text-5xl">
+            How It Works
+          </h2>
+          <p className="mx-auto max-w-2xl text-xl text-white/70">
+            From writing the prompt to generating songs in minutes
+          </p>
+
+        </motion.div>
+
+        {/* <HeroAnimation/> */}
+        </div>
+        
+      </section>
+
 
      
       {/* Call-to-Action Section */}
