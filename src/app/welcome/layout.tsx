@@ -3,7 +3,7 @@ import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 
 export const metadata: Metadata = {
-  title: "Landing Page",
+  title: "SongenAI",
   description: "Music Generator",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
