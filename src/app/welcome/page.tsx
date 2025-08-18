@@ -87,7 +87,7 @@ function LiquidGlassHero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.6 }}
-          className="mx-auto flex w-full max-w-md sm:max-w-xl items-center rounded-full bg-white/5 px-2 py-2 sm:px-4 shadow-lg backdrop-blur-md"
+          className="mx-auto flex w-full max-w-md sm:max-w-xl items-center rounded-full bg-white/5 px-2 py-2 sm:px-4 shadow-lg backdrop-blur-md border border-accent/25"
         >
           <input
             type="text"
@@ -132,8 +132,6 @@ const Footer = () => {
     </footer>
   );
 };
-
-
 
 export default function HomePage() {
   return (

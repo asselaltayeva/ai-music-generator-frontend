@@ -14,7 +14,7 @@ import {
 } from "../ui/sidebar";
 
 import SidebarMenuItems from "./sidebar-menu-items";
-import { User } from "lucide-react";
+import { Music, Sparkles, User } from "lucide-react";
 import { Credits } from "./credits";
 import Upgrade from "./upgrade";
 
@@ -24,10 +24,14 @@ export async function AppSidebar() {
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-primary mt-4 mb-12 flex flex-col items-start justify-start px-2 text-3xl font-black tracking-widest uppercase">
-            <p>Music</p>
-            <p className="text-lg">Generator</p>
-          </SidebarGroupLabel>
+        <SidebarGroupLabel className="text-primary mt-4 mb-6 px-2">
+        <div className="flex items-center gap-3">
+          <Music className="h-7 w-7 text-primary" />
+          <p className="text-3xl font-black tracking-widest uppercase bg-gradient-to-r from-primary to-gray-700 bg-clip-text text-transparent">
+            Songen.ai
+          </p>
+        </div>
+      </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItems />

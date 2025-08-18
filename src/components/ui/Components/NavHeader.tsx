@@ -50,7 +50,7 @@ export default function NavHeader() {
           </Link>
 
           <Link
-            href="/"
+            href="https://github.com/asselaltayeva"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white/90 backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:text-white"

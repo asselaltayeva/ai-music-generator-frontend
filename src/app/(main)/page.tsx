@@ -12,9 +12,9 @@ export default async function Page() {
   });
 
   if (!session) {
-    redirect("/auth/sign-in")
+    redirect("/welcome")
   }
-  
+
   const userId = session?.user.id;
 
   const songs = await db.song.findMany({  
@@ -63,15 +63,13 @@ export default async function Page() {
 
     .reduce((acc,song) => {
       const primaryCategory = song.categories[0];
-      if (primaryCategory){
-        if (!acc[primaryCategory.name]) {
-          acc[primaryCategory.name] = [];
+      if (primaryCategory) {
+        acc[primaryCategory.name] ??= [];
+        if (acc[primaryCategory.name]!.length < 10) {
+          acc[primaryCategory.name]!.push(song);
+        }
       }
-      if (acc[primaryCategory.name]!.length < 10) {
-        acc[primaryCategory.name]!.push(song);
-      }
-    }
-    return acc;
+      return acc;
 }, {} as Record<string, Array <(typeof songsWithUrls)[number]>>,);
 
   if (trendingSongs.length === 0 && Object.keys(categorizedSongs).length === 0) {

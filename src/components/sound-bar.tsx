@@ -75,17 +75,17 @@ export default function SoundBar() {
     },[volume])
 
 
-    const togglePlay = () => {
+    const togglePlay = async () => {
         if (!track?.url || !audioRef.current) return;
 
         if (isPlaying) {
             audioRef.current.pause();
             setisPlaying(false);
         } else {
-            audioRef.current.play();
+            await audioRef.current.play();
             setisPlaying(true);
         }
-    }
+    };
 
     const handleSeek = (value: number[]) => {
         if (audioRef.current && value[0] !== undefined){

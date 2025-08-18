@@ -12,7 +12,7 @@ export default async function Page() {
   });
 
   if (!session) {
-    redirect("/auth/sign-in")
+    redirect("/welcome");
   }
 
   return (

@@ -9,5 +9,6 @@ export function generateStaticParams() {
 export default async function AuthPage({ params }: { params: Promise<{ pathname: string }> }) {
     const { pathname } = await params
 
-    return <AuthView pathname={pathname} />
+    return (<AuthView pathname={pathname} />)
+
 }

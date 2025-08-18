@@ -3,7 +3,7 @@
 */
 
 import { useRef, useEffect, useState } from "react";
-import { Renderer, Program, Triangle, Mesh } from "ogl";
+import { Renderer, Program, Triangle, Mesh, type OGLRenderingContext, Geometry } from "ogl";
 
 export type RaysOrigin =
   | "top-center"
@@ -31,17 +31,36 @@ interface LightRaysProps {
   className?: string;
 }
 
+interface Uniforms {
+  iTime: { value: number };
+  iResolution: { value: [number, number] };
+  rayPos: { value: [number, number] };
+  rayDir: { value: [number, number] };
+  raysColor: { value: [number, number, number] };
+  raysSpeed: { value: number };
+  lightSpread: { value: number };
+  rayLength: { value: number };
+  pulsating: { value: number };
+  fadeDistance: { value: number };
+  saturation: { value: number };
+  mousePos: { value: [number, number] };
+  mouseInfluence: { value: number };
+  noiseAmount: { value: number };
+  distortion: { value: number };
+}
+
 const DEFAULT_COLOR = "#ffffff";
 
 const hexToRgb = (hex: string): [number, number, number] => {
   const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return m
-    ? [
-        parseInt(m[1], 16) / 255,
-        parseInt(m[2], 16) / 255,
-        parseInt(m[3], 16) / 255,
-      ]
-    : [1, 1, 1];
+  if (m) {
+    return [
+      parseInt(m[1] ?? "0", 16) / 255,
+      parseInt(m[2] ?? "0", 16) / 255,
+      parseInt(m[3] ?? "0", 16) / 255,
+    ];
+  }
+  return [1, 1, 1];
 };
 
 const getAnchorAndDir = (
@@ -86,12 +105,12 @@ const LightRays: React.FC<LightRaysProps> = ({
   className = "",
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const uniformsRef = useRef<any>(null);
+  const uniformsRef = useRef<Uniforms | null>(null);
   const rendererRef = useRef<Renderer | null>(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const smoothMouseRef = useRef({ x: 0.5, y: 0.5 });
   const animationIdRef = useRef<number | null>(null);
-  const meshRef = useRef<any>(null);
+  const meshRef = useRef<Mesh | null>(null);
   const cleanupFunctionRef = useRef<(() => void) | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -102,7 +121,9 @@ const LightRays: React.FC<LightRaysProps> = ({
     observerRef.current = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
-        setIsVisible(entry.isIntersecting);
+        if (entry) {
+          setIsVisible(entry.isIntersecting);
+        }
       },
       { threshold: 0.1 },
     );
@@ -249,7 +270,7 @@ void main() {
   gl_FragColor  = color;
 }`;
 
-      const uniforms = {
+      const uniforms: Uniforms = {
         iTime: { value: 0 },
         iResolution: { value: [1, 1] },
 
@@ -365,7 +386,10 @@ void main() {
       };
     };
 
-    initializeWebGL();
+    initializeWebGL()
+      .catch((error) => {
+        console.error("Error initializing WebGL:", error);
+      });
 
     return () => {
       if (cleanupFunctionRef.current) {
