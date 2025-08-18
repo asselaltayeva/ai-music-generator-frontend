@@ -92,10 +92,10 @@ function LiquidGlassHero() {
           <input
             type="text"
             placeholder="Type any idea you have"
-            className="flex-1 bg-transparent px-3 py-2 sm:px-4 text-sm sm:text-base text-white focus:outline-none rounded-full"
+            className="flex-1 bg-transparent placeholder-gray-300 px-3 py-2 sm:px-4 text-sm sm:text-base text-white focus:outline-none rounded-full"
           />
           <Link href="/auth/sign-in">
-            <button className="ml-2 rounded-full bg-white px-4 sm:px-6 py-2 text-sm sm:text-base text-black font-semibold shadow-md transition hover:bg-gray-100">
+            <button className="ml-2 rounded-full bg-white px-4 sm:px-6 py-2 text-sm sm:text-base text-black font-semibold shadow-md transition hover:bg-gray-100 ">
               Create
             </button>
           </Link>
