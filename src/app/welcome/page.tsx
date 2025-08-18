@@ -110,21 +110,29 @@ const Footer = () => {
     { label: "Feedback", href: "https://docs.google.com/forms/d/e/1FAIpQLSc-Qv--TF4DdzZnTc5SWSccE2y8-G8F59vpIjIEqbBRd_AO4Q/viewform?usp=header" },
     { label: "Contact", href: "https://t.me/asselia7" },
   ];
+
   return (
     <footer className="py-6 px-4 sm:px-10 bg-black/80 text-white/70">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-3 md:gap-0 items-center">
         <p className="text-xs sm:text-sm">Made by Asseli with 🤍</p>
         <div className="flex flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm">
-          {links.map((link, i) => (
-            <Link key={link.label} href={link.href} className="hover:underline">
+          {links.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
               {link.label}
-            </Link>
+            </a>
           ))}
         </div>
       </div>
     </footer>
   );
 };
+
 
 
 export default function HomePage() {
