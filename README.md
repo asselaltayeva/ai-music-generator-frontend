@@ -1,30 +1,41 @@
-# Create T3 App
+# 🎶 SongenAI
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This project is a full stack application for AI music generation.  
+Users can create ai songs from text prompts, custom lyrics, or style descriptions with options for instrumental tracks, AI generated thumbnails, and a personal dashboard to manage their creations. 
+---
 
-## What's next? How do I make an app with this?
+## ✨ Key Features
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- **AI Music Generation** powered by **ACE-Step**  
+- **LLM-driven Lyrics & Prompt Generation** (Qwen2-7B)  
+- **AI Thumbnail Generation** (stabilityai/sdxl-turbo)  
+- **Flexible Modes** → descriptions, lyrics, or described lyrics  
+- **Instrumental Option** for non-vocal tracks  
+- **Serverless GPU Processing** with Modal  
+- **Inngest Queue System** for scalable background tasks  
+- **User Authentication** with BetterAuth  
+- **Community Music Feed** to discover & engage with AI generated tracks  
+- **Personal Dashboard** to manage, play, and publish songs  
+- **Python + FastAPI Backend** for generation logic  
+- **Modern UI** with Next.js 15, Tailwind CSS, React bits & ShadCN UI  
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+---
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## 🛠️ Tech Stack
 
-## Learn More
+**Frontend**
+- Next.js 15, React, TypeScript  
+- Tailwind CSS, ShadCN UI  
+- BetterAuth for authentication  
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+**Backend**
+- Python + FastAPI  
+- Modal (serverless GPU inference)  
+- Inngest (background queue processing)  
+- Neon (serverless Postgres)  
+- AWS S3 (storage)
+  
+---
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+This architecture ensures **scalability, cost-efficiency, and production readiness**.  
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
-# ai-music-generator-frontend
