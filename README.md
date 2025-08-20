@@ -1,8 +1,7 @@
 # 🎶 SongenAI
-
+---
 This project is a full stack application for AI music generation.  
 Users can create ai songs from text prompts, custom lyrics, or style descriptions with options for instrumental tracks, AI generated thumbnails, and a personal dashboard to manage their creations. 
----
 
 ## ✨ Key Features
 
